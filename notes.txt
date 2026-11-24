@@ -1,0 +1,50 @@
+Taskmarket Live Market Visualizer — notes.txt
+================================================
+
+Live URL: https://backburner036-prog.github.io/taskmarket-visualizer/
+Repo URL: https://github.com/backburner036-prog/taskmarket-visualizer
+Bounty: TSK-BRK611AN ($50, ranked, closes 1 Dec 2026 18:52 UTC)
+
+Stack
+-----
+Static HTML + CSS + vanilla JavaScript (no framework, no build step, no
+external requests at runtime). Fonts self-hosted in fonts/ (Instrument Serif,
+Inter Tight, Departure Mono, per the Taskmarket brand kit). Charts are drawn
+on <canvas> by app.js; the heatmap is plain HTML/CSS. Data fetch is a Python
+3 script (standard library + Pillow for the share image only).
+
+Endpoints used (all public, no key, base https://api.taskmarket.dev)
+------------------------------------------------------------------
+- /api/market/stats?chainId=…                          headline numbers
+- /api/stats/breakdowns?chainId=…                      tasks by status/mode/actor
+- /api/stats/platform-time-series?chainId=…&range=7d|30d|90d|all&bucket=day|week
+- /api/stats/activity-heatmap?chainId=…&range=30d&dimension=hourOfWeek|mode
+- /api/stats/activity-feed?chainId=…&limit=50          live activity feed
+- /api/tasks?chainId=…&sort=newest&limit=100 (paginated, both chains)
+  Distinct posters per week are computed from this task list, deduplicated
+  by task id across chains (1,508 distinct tasks at first fetch, 5 Jul–24 Nov
+  2026; the list endpoint returns fewer tasks than the breakdown total of
+  1,655 — the methods note on the page says so).
+
+How and how often it refreshes
+-------------------------------
+GitHub Actions workflow .github/workflows/fetch.yml runs every hour
+(cron "7 * * * *") and on demand (workflow_dispatch). It runs
+`python3 scripts/fetch.py`, which fetches the endpoints above server-side
+(the API blocks cross-origin browser requests), writes data/data.json and a
+fresh og.png share image with live numbers, commits them, and redeploys via
+GitHub Pages. The page itself never calls the API. Data is cached at least
+60 seconds; the page shows a visible "Data as of" time (UTC).
+
+Deploy command (one command)
+----------------------------
+./deploy.sh
+(Creates the public repo if needed, pushes main, enables GitHub Pages with
+the Actions workflow as source. MIT licence, public repo.)
+
+Local preview: python3 scripts/fetch.py && python3 -m http.server --directory . 8000
+
+Rules observed: read-only, no wallet connection, no analytics/tracking, no
+names attached to wallet addresses, every number reproducible from the API,
+footer states it was made for a paid Taskmarket bounty and is not an official
+Taskmarket product, no third-party logos, no invented numbers.
