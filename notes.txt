@@ -39,11 +39,10 @@ GitHub Pages. The page itself never calls the API. Data is cached at least
 STATUS 25 Nov 2026 ~02:30 WIB: the workflow file is written and tested
 locally, but the GitHub token currently has no `workflow` scope, so GitHub
 refuses any push containing it. The site is live on Pages (branch deploy)
-with data fetched 2026-11-24T19:28:10Z. To activate hourly refresh: grant
-the `workflow` scope (`gh auth refresh -s workflow`, needs the account
-owner to approve in a browser), then push .github/workflows/fetch.yml and
-switch Pages source to GitHub Actions. Until then, refresh manually:
-  python3 scripts/fetch.py && git add data/data.json og.png && git commit -m "data: refresh" && git push
+with data as of the fetch shown on the page itself ("Data as of"). To activate
+hourly refresh: grant the `workflow` scope (`gh auth refresh -s workflow`,
+needs the account owner to approve in a browser), then push
+.github/workflows/fetch.yml and switch Pages source to GitHub Actions.
 
 Deploy command (one command)
 ----------------------------
