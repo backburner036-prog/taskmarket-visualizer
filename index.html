@@ -120,7 +120,7 @@
     <p>Endpoints used:</p>
     <ul class="mono-list" id="endpoints"></ul>
     <p id="methods-notes"></p>
-    <p>How it refreshes: a GitHub Actions workflow runs <span class="mono">python3 scripts/fetch.py</span> every hour, fetches the endpoints above server-side (the API blocks cross-origin browser requests), writes <span class="mono">data/data.json</span> and a fresh share image, then deploys to GitHub Pages. The page itself never calls the API. Data is cached at least 60 seconds.</p>
+    <p>How it refreshes: a GitHub Actions workflow runs <span class="mono">python3 scripts/fetch.py</span> every hour, fetches the endpoints above server-side (the API blocks cross-origin browser requests), writes <span class="mono">data/data.json</span> and a fresh share image, then deploys to GitHub Pages. The page itself never calls the API. Data is cached at least 60 seconds. Status: the workflow is written and tested, but the GitHub token used to push it has no <span class="mono">workflow</span> scope yet, so the hourly run activates once that scope is granted — until then data is refreshed by re-running the fetch and pushing (see notes.txt in the repo).</p>
     <p>Source: <a href="https://github.com/backburner036-prog/taskmarket-visualizer">github.com/backburner036-prog/taskmarket-visualizer</a> (MIT). One-command deploy: <span class="mono">./deploy.sh</span></p>
   </section>
 </main>
