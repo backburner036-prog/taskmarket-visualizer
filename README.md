@@ -10,10 +10,16 @@ Live: **https://backburner036-prog.github.io/taskmarket-visualizer/**
 ## How it works
 
 The Taskmarket API blocks cross-origin browser requests, so the page never
-calls the API. A GitHub Actions workflow runs `scripts/fetch.py` every hour,
-fetches the public endpoints server-side, writes `data/data.json` (plus a
-fresh `og.png` share image with live numbers), commits it, and deploys the
-static site to GitHub Pages. The page only reads `data/data.json`.
+calls the API. Data is fetched server-side by `scripts/fetch.py`, which
+writes `data/data.json` (plus a fresh `og.png` share image with live
+numbers). The static site is hosted on GitHub Pages.
+
+Hourly refresh is a GitHub Actions workflow in `.github/workflows/fetch.yml`
+— it is part of this repo's history, but pushing a workflow file needs the
+`workflow` OAuth scope, which the current `gh` token does not have (GitHub
+refuses the push). Until that scope is granted, refresh by re-running the
+fetch and pushing (below); once the scope is granted, push the workflow file
+and switch Pages source to GitHub Actions.
 
 ## Endpoints used (all public, no key)
 

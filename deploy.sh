@@ -12,5 +12,6 @@ git branch -M main
 git remote add origin https://github.com/backburner036-prog/taskmarket-visualizer.git 2>/dev/null || true
 git push -u origin main
 gh api repos/backburner036-prog/taskmarket-visualizer/pages -X POST \
-  -f build_type=workflow 2>/dev/null || echo "Pages already enabled (or enable it in repo Settings > Pages, source: GitHub Actions)."
+  -f 'source[branch]=main' -f 'source[path]=/' 2>/dev/null || echo "Pages already enabled (or enable it in repo Settings > Pages, source: Deploy from a branch, main)."
 echo "Live URL: https://backburner036-prog.github.io/taskmarket-visualizer/"
+echo "NOTE: hourly auto-refresh needs the gh token to have the 'workflow' scope before .github/workflows/fetch.yml can be pushed (gh auth refresh -s workflow)."
