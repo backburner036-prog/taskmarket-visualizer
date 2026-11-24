@@ -146,6 +146,13 @@ def main():
 
     data["combined"] = {
         "totalTasks": total_tasks,
+        # Minimal task index so every computed poster figure can be reproduced
+        # from this file alone (id, requester, createdAt, status, mode, chainId).
+        "tasksIndex": [{
+            "id": t["id"], "requester": t.get("requester"),
+            "createdAt": t.get("createdAt"), "status": t.get("status"),
+            "mode": t.get("mode"), "chainId": t.get("chainId"),
+        } for t in sorted(tasks, key=lambda t: t.get("createdAt") or "")],
         "tasksReturnedTempo": data["chains"]["4217"]["tasksFetched"],
         "tasksReturnedBase": data["chains"]["8453"]["tasksFetched"],
         "tasksDateMin": min(task_dates) if task_dates else None,

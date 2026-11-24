@@ -173,8 +173,9 @@ function renderHeat() {
 
 function renderFeed() {
   const items = [...(DATA.chains["4217"].activityFeed.items || []), ...(DATA.chains["8453"].activityFeed.items || [])]
-    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 25);
-  const seen = new Set(); const uniq = items.filter(i => { const k = i.timestamp + i.actor + i.taskId; if (seen.has(k)) return false; seen.add(k); return true; });
+    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  const seen = new Set();
+  const uniq = items.filter(i => { const k = i.timestamp + i.actor + i.taskId + i.type; if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 25);
   $("#feed-list").innerHTML = uniq.map(i => {
     const label = { task_created: "task posted", task_submitted: "submission", task_completed: "completed", reward_paid: "paid", task_cancelled: "cancelled" }[i.type] || i.type.replace(/_/g, " ");
     const amt = i.amount != null ? ` · ${money(moneyField(i.amount))}` : "";
