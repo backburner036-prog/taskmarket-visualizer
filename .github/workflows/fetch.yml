@@ -2,7 +2,7 @@ name: Fetch Taskmarket data (hourly)
 
 on:
   schedule:
-    - cron: "7 * * * *"  # hourly
+    - cron: "7 * * * *"  # hourly — re-registered 25 Nov 2026 (r40: 0 scheduled runs since creation, re-push per standing order)
   workflow_dispatch:
 
 permissions:
